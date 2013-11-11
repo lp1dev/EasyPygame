@@ -18,13 +18,15 @@ class eventHandler():
             self.functions[self.keys.index(key)](loop)
 
 class sprite(object):
-    def __init__(self, path, x , y):
+    def __init__(self, path, x , y, colorkey):
         self.path = path;
         self.x = x;
         self.y = y;
         self.image = pygame.image.load(path).convert()
+        self.colorkey = colorkey
 
     def show(self, Window):
+        self.image.set_colorkey(self.colorkey)
         Window.blit(self.image, (self.x, self.y))
         pygame.display.flip()
 

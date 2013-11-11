@@ -12,6 +12,6 @@ def main():
     w.show()
     w.setBackgroundColor(187, 210, 225);
     w.printText("coucou", 10 , 10)
-    w.addSprite(sprite("res/sprite.png", 40, 70))
+    w.addSprite(sprite("res/sprite.png", 40, 70, (0, 0, 0)))
     w.loop(basicHandler.handler)
 main();
