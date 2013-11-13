@@ -1,5 +1,6 @@
 import pygame
 import sys
+from elements import *
 from pygame.locals import *
 
 class eventHandler():
@@ -17,47 +18,26 @@ class eventHandler():
         if key in self.keys:
             self.functions[self.keys.index(key)](loop)
 
-class sprite(object):
-    def __init__(self, path, x , y, colorkey):
-        self.path = path;
-        self.x = x;
-        self.y = y;
-        self.image = pygame.image.load(path).convert()
-        self.colorkey = colorkey
-
-    def show(self, Window):
-        self.image.set_colorkey(self.colorkey)
-        Window.blit(self.image, (self.x, self.y))
-        pygame.display.flip()
-
-    def move(self, window, x, y):
-        self.x = self.x + x;
-        self.y = self.y + y;
-        window.Window.blit(self.image, (self.x , self.y))
-        pygame.display.flip()
-
 class loop(object):
     def __init__(self, eventHandler, Window):
+        pygame.key.set_repeat(100, 100)
         self.eventHandler = eventHandler
         self.Window = Window
-        go_on = 1
-        while (go_on):
+        self.go_on = 1
+        while (self.go_on):
             for event in pygame.event.get():
                 if (event.type == KEYDOWN):
                     self.eventHandler.handle(event.key, self)
                 else:
                     self.eventHandler.handle(event.type, self)
-            self.do_nothing()
 
-    def do_nothing(self):
-        self.go_on = 1
-    
     def stop(self):
-        sys.exit(0)
+        self.go_on = 0
 
 class window(object):
     def __init__(self, width, height, title, icon):
         self.sprites = []
+        self.texts = []
         self.width = width
         self.height = height
         self.title = title
@@ -67,22 +47,27 @@ class window(object):
 
     def addSprite(self, sprite):
         self.sprites.append(sprite)
-        sprite.show(self.Window)
+        self.update()
         
+    def addText(self, text):
+        self.texts.append(text)
+        self.update()
+      
+    def update(self):
+        self.Window.blit(self.background, (0, 0))
+        for text in self.texts:
+            if (text.visible == True):
+                self.Window.blit(text.surface, (text.x, text.y))
+        for sprite in self.sprites:
+            if (sprite.visible == True):
+                self.Window.blit(sprite.image, (sprite.x, sprite.y))
+        pygame.display.flip()
+
     def setBackgroundColor(self, r, g ,b):
         self.background = pygame.Surface(self.Window.get_size())
         self.background = self.background.convert()
         self.background.fill((r, g, b))
-        self.Window.blit(self.background, (0, 0))
-        pygame.display.flip()
-
-    def printText(self, Text, x , y):
-        font = pygame.font.Font(None, 36)
-        text = font.render(Text, 1, (10, 10, 10))
-        textpos = text.get_rect()
-        textpos.centerx = self.background.get_rect().centerx
-        self.Window.blit(text, (x ,y))
-        pygame.display.flip()
+        self.update()
       
     def loop(self, eh):
         self.loop = loop(eh, self)
