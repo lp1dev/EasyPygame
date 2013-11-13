@@ -93,6 +93,10 @@ class window(object):
                 elem.rect = self.Window.blit(elem.surface, elem.pos)
         pygame.display.flip()
 
+    def addRect(self, shape):
+        self.elems.append(shape)
+        self.update()
+
     def setBackgroundColor(self, color):
         self.background = pygame.Surface(self.Window.get_size())
         self.background = self.background.convert()

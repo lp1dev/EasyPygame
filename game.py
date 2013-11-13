@@ -17,7 +17,7 @@ def play(loop):
     w = window(640, 480, "sampleGame", "res/icon.png")
     w.addSprite(sprite("back", "res/level.png", -150, 0, colors.blue))
     w.addSprite(sprite("pikachu", "res/sprite.png", 100, 355, colors.white))
-    loop.setKeyRepeat(70, 70)
+    w.setKeyRepeat(70, 70)
     w.loop(basicHandler.handler)
 
 def menu():
@@ -31,6 +31,7 @@ def menu():
     w.input = True
     w.setKeyRepeat(70, 70)
     w.addText(text("buffer", "",0,400, colors.black, 34))
+    w.addRect(shape("teste", colors.black, 0, 0, 100, 200))
     w.loop(menuHandler.handler)
 
 def main():
