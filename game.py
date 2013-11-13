@@ -1,17 +1,22 @@
-#!/usr/bin/python
+#!/usr/bin/python2
 
 import pygame
 import basicHandler
-from classes import *
+from easyPygame import *
 from pygame.locals import *
 
-pygame.init()
+def clickHandle(w):
+    w.findByName("mario").visible = False
+    w.update()
 
 def main():
+    pygame.init()
     w = window(1000, 1000, "EasyPygame", "res/icon.png")
     w.show()
-    w.setBackgroundColor(187, 210, 225);
-    w.printText("coucou", 10 , 10)
-    w.addSprite(sprite("res/sprite.png", 40, 70, (0, 0, 0)))
+    w.addSprite(sprite("back" ,"res/back.png", 0, 0, colors.blue))
+    w.addSprite(sprite("mario", "res/sprite.png", 40, 70, colors.black))
+    w.addButton(button("button1", "Selection 1", "res/buttonbg.png", 100,100, colors.white))
+    w.addText(text("coucou", "Coucou", 0, 0, colors.white, 42))
+    w.findByName("mario").onClick = clickHandle
     w.loop(basicHandler.handler)
 main();
